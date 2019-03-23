@@ -1,30 +1,45 @@
 package com.seeren.staruml;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
-import com.seeren.staruml.controllers.WaterMarkController;
+import com.seeren.staruml.commands.Option;
+import com.seeren.staruml.commands.WaterMarkCommand;
 import com.seeren.staruml.loggers.Logger;
-import com.seeren.staruml.resources.Resource;
 
-public class App {
+public final class App {
 
-	public static void main(String[] args) {
+	public final static void main(String[] args) {
 		Logger logger = new Logger();
+		Map<String, String> options = new TreeMap<String, String>();
+		options.put(Option.DIRECTORY.key(), null);
+		options.put(Option.RECURSIVE.key(), null);
 		try {
 			if (0 == args.length) {
-				throw new RuntimeException();
+				throw new IllegalArgumentException();
 			}
-			(new WaterMarkController(new ArrayList<String>(Arrays.asList(args)), logger)).execute();
+			for (int i = 0; i < args.length; i++) {
+				if (options.keySet().contains(args[i])) {
+					options.put(args[i], i + 1 < args.length ? args[i + 1] : "");
+				}
+			}
+			(new WaterMarkCommand(options, logger)).execute();
 		} catch (RuntimeException e) {
-			logger.log("\nStar UML WaterMark" + (new Resource("brand")).getValue("resource"));
-			logger.warning("Usage:");
-			logger.log("\n  command [options]\n", true);
+			if (e instanceof IllegalArgumentException) {
+				logger.success("\nStar UML WaterMark remover\n");
+			} else {
+				logger.error("\n" + e.getMessage() + "\n");
+			}
+			options.put(Option.DIRECTORY.key(), Option.DIRECTORY.value());
+			options.put(Option.RECURSIVE.key(), Option.RECURSIVE.value());
+			logger.warning("\nUsage:");
+			logger.log("\n   [options]\n", true);
 			logger.warning("Options:");
-			logger.success("\n  -d  ");
-			logger.log("Directory path");
-			logger.success("\n  -r  ");
-			logger.log("Recursive remove\n");
+			options.forEach((String key, String value) -> {
+				logger.success("\n  " + key + "  ");
+				logger.log(value);
+			});
+			logger.log("\n");
 		}
 	}
 
