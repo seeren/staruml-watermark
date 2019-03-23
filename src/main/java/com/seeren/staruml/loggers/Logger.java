@@ -7,35 +7,31 @@ public class Logger {
 	}
 
 	public final void log(String message, Boolean lineBreak) {
-		System.out.println(message + LogColor.RESET);
-	}
-
-	private String logColor(LogColor color, String message) {
-		return color + message;
+		log(message + "\n");
 	}
 
 	public final void emergency(String message) {
-		log(logColor(LogColor.MAGENTA, message));
+		log(LogColor.MAGENTA + message);
 	}
 
 	public final void error(String message) {
-		log(logColor(LogColor.RED, message));
+		log(LogColor.RED + message);
 	}
 
 	public final void warning(String message) {
-		log(logColor(LogColor.YELLOW, message));
+		log(LogColor.YELLOW + message);
 	}
 
 	public final void success(String message) {
-		log(logColor(LogColor.GREEN, message));
+		log(LogColor.GREEN + message);
 	}
 
 	public final void info(String message) {
-		log(logColor(LogColor.BLUE, message));
+		log(LogColor.BLUE + message);
 	}
 
 	public final void debug(String message) {
-		log(logColor(LogColor.RESET, message));
+		log(LogColor.RESET + message);
 	}
 
 }
