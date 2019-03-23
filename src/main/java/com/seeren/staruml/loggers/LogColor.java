@@ -14,14 +14,14 @@ public enum LogColor {
 
 	GREEN("\033[0;92m");
 
-	private String code;
+	private final String code;
 
-	private LogColor(String code) {
+	private LogColor(final String code) {
 		this.code = code;
 	}
 
 	@Override
-	public String toString() {
+	public final String toString() {
 		return code;
 	}
 
