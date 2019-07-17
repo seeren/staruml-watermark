@@ -9,14 +9,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
-public class Watermarker {
+public abstract class Watermarker {
 
-	public final Document getDocument(final String fileName) throws IllegalArgumentException {
-		try {
-			return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(fileName));
-		} catch (SAXException | IOException | ParserConfigurationException e) {
-			throw new IllegalArgumentException("Unable to read " + fileName);
-		}
+    public final Document getDocument(final String fileName) throws IllegalArgumentException {
+	try {
+	    return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(fileName));
+	} catch (SAXException | IOException | ParserConfigurationException e) {
+	    throw new IllegalArgumentException("Unable to read " + fileName);
 	}
+    }
 
 }
